@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>韩语罗马音多维记忆工作台 - 历史回溯极简版</title>
+    <style>
+        /* ==========================================================================
+           【第一部分：全局与分栏布局样式】
+           ========================================================================== */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 20px;
+            height: 100vh;
+            display: flex;
+            box-sizing: border-box;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        /* 左侧主体转换区 */
+        .main-zone {
+            width: 50%;
+            min-width: 350px;
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px 0 0 12px;
+            box-shadow: -4px 4px 15px rgba(0,0,0,0.02);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+
+        /* 中央物理拉伸分界线 */
+        .resizer {
+            width: 8px;
+            background-color: #e9ecef;
+            cursor: col-resize;
+            transition: background-color 0.2s;
+            position: relative;
+            z-index: 10;
+        }
+        .resizer:hover, .resizer.active {
+            background-color: #28a745;
+        }
+
+        /* 右侧综合控制面板 */
+        .side-panel {
+            flex: 1;
+            min-width: 350px;
+            background-color: white;
+            border-radius: 0 12px 12px 0;
+            box-shadow: 4px 4px 15px rgba(0,0,0,0.02);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-sizing: border-box;
+            padding: 20px;
+        }
+
+        /* ==========================================================================
+           【第二部分：全站大标题视觉规范样式管理】
+           ========================================================================== */
+        .global-main-title {
+            font-size: 20px;
+            color: #212529;
+            margin: 0 0 12px 0;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .standard-header-row {
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            margin-bottom: 12px; 
+            padding-bottom: 6px; 
+            border-bottom: 1px solid #e9ecef;
+        }
+        .standard-header-row h2, .standard-header-row h3 {
+            font-size: 14px; 
+            margin: 0; 
+            font-weight: bold;
+        }
+        /* 主题识别色分支 */
+        .theme-input { color: #0288D1; border-bottom: 1px solid #e1f5fe; }
+        .theme-output { color: #455A64; border-bottom: 1px solid #eceff1; }
+        .theme-history { color: #5e35b1; border-bottom: 1px solid #f3e5f5; }
+        .theme-dict { color: #28a745; }
+        .theme-notebook { color: #d63384; }
+
+        .header-action-group {
+            display: flex;
+            gap: 8px;
+        }
+        .system-action-btn {
+            background: none; 
+            border: none; 
+            font-size: 11px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            padding: 2px 4px;
+            transition: color 0.2s;
+        }
+        .btn-blue { color: #007bff; }
+        .btn-green { color: #28a745; }
+        .btn-purple { color: #7e57c2; }
+        .btn-red { color: #e53935; }
+        .btn-red:hover { color: #c62828; }
+
+        /* ==========================================================================
+           【第三部分：核心高亮提示条与五级阶梯色彩】
+           ========================================================================== */
+        .hint-box {
+            background-color: #f8f9fa;
+            border-left: 4px solid #28a745;
+            padding: 10px 12px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            text-align: left;
+            font-size: 12px;
+            color: #555;
+            line-height: 1.6;
+            transition: max-height 0.3s ease-out, opacity 0.2s, padding 0.3s;
+            overflow: hidden;
+        }
+        .hint-box.collapsed {
+            max-height: 0 !important;
+            opacity: 0 !important;
+            padding: 0 12px !important;
+            margin-bottom: 0 !important;
+            border: none !important;
+        }
+
+        /* 顶部全局新高亮条风格（淡海蓝色系） */
+        .guide-hint-box {
+            background-color: #e1f5fe;
+            border-left: 4px solid #0288D1;
+            color: #0277bd;
+        }
+
+        .color-legend-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 6px;
+            padding-top: 4px;
+            border-top: 1px dashed #ddd;
+        }
+        .legend-item {
+            font-size: 10px; font-weight: bold; padding: 1px 4px; border-radius: 2px; color: white;
+        }
+
+        /* 🎨 五级核心频次文本颜色应用 */
+        .color-l1 { color: #4CAF50 !important; } /* 1-2次 偶然失误 绿色 */
+        .color-l2 { color: #FBC02D !important; } /* 3-4次 尚未掌握 黄色 */
+        .color-l3 { color: #FB8C00 !important; } /* 5-7次 重点关注 橙色 */
+        .color-l4 { color: #E53935 !important; } /* 8-12次 顽固错误 红色 */
+        .color-l5 { color: #6A1B9A !important; } /* 13次+ 重构学习 深紫红 */
+
+        textarea {
+            width: 100%;
+            height: 90px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            resize: none;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        .action-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .result-box {
+            margin-top: 10px;
+            padding: 15px;
+            background-color: #e9ecef;
+            border-radius: 6px;
+            flex: 1;
+            text-align: left;
+            font-size: 16px; 
+            white-space: pre-wrap; 
+            line-height: 3.5; 
+            overflow-y: auto;
+            min-height: 120px;
+        }
+
+        /* ==========================================================================
+           【第四部分：全新历史记录展示模块样式】
+           ========================================================================== */
+        #history-section-wrapper {
+            transition: max-height 0.3s ease-out, opacity 0.2s;
+            max-height: 400px;
+            overflow-y: auto;
+            opacity: 1;
+            margin-top: 10px;
+        }
+        #history-section-wrapper.collapsed {
+            max-height: 0 !important;
+            opacity: 0 !important;
+            margin-top: 0 !important;
+        }
+        .history-flow-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding: 4px 0;
+        }
+        /* 拟物自习卡片设计 */
+        .history-card {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            background-color: #f0f4f8;
+            border: 1px solid #d0e1fd;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+            min-width: 140px;
+            max-width: 220px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+        }
+        .history-card:hover {
+            background-color: #e1f5fe;
+            border-color: #0288D1;
+            transform: translateY(-1px);
+        }
+        .history-card .hist-time {
+            font-size: 9px;
+            color: #78909c;
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+        .history-card .hist-preview {
+            font-size: 12px;
+            font-weight: bold;
+            color: #263238;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+
+        /* ==========================================================================
+           【第五部分：核心歌词注音样式】
+           ========================================================================== */
+        .lyrics-line-row {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        ruby.kr-ruby {
+            display: inline-flex;
+            flex-direction: column; 
+            align-items: center;    
+            vertical-align: top;
+            margin-right: 10px;   
+            line-height: 1.2; 
+            position: relative; 
+            margin-top: 20px;   
+        }
+
+        ruby.kr-ruby rt {
+            display: block;
+            font-size: 14px;     
+            color: #6c757d;      
+            font-weight: bold; 
+            margin-top: 4px;     
+            cursor: pointer;
+            padding: 0 4px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        ruby.kr-ruby rt:hover {
+            background-color: #ffe066;
+        }
+
+        .literal-romaji {
+            color: #007bff; font-weight: bold; font-size: 11px;
+            position: absolute; top: -16px; white-space: nowrap;
+        }
+        .pronounce-romaji { color: #28a745; font-weight: bold; font-size: 18px; }
+        .normal-char { display: inline-block; vertical-align: top; margin-top: 20px; }
+
+        /* ==========================================================================
+           【第六部分：系统字母表与错字本排版】
+           ========================================================================== */
+        #master-alphabet-wrapper {
+            transition: max-height 0.3s ease-out, opacity 0.2s;
+            max-height: 800px;
+            overflow: hidden;
+            opacity: 1;
+        }
+        #master-alphabet-wrapper.collapsed {
+            max-height: 0 !important;
+            opacity: 0 !important;
+            margin-bottom: 0 !important;
+        }
+
+        .dict-section { 
+            margin-bottom: 6px; 
+            text-align: left; 
+            display: flex; 
+            align-items: flex-start; 
+            gap: 6px;
+        }
+        .grid-container { display: flex; flex-wrap: wrap; gap: 4px; flex: 1; }
+
+        .letter-card {
+            background-color: #f0f4f8; border: 1px solid #d0e1fd; border-radius: 4px; 
+            padding: 4px 6px; box-sizing: border-box; position: relative; display: inline-flex; 
+            align-items: center; gap: 4px; height: 28px;
+        }
+        .letter-card .main-txt { font-size: 14px; font-weight: bold; color: #333; }
+        .letter-card .card-info-line { display: flex; gap: 3px; font-size: 10px; font-weight: bold; color: #666; white-space: nowrap; }
+        .letter-card .lock-btn { position: absolute; top: -1px; right: 1px; font-size: 7px; cursor: pointer; color: #bbb; }
+        .letter-card .lock-btn.locked { color: #ae3ec9; font-weight: bold; } 
+        .letter-card .count-badge { font-size: 9px; color: #999; font-weight: bold; margin-left: 2px; }
+        .card-locked { background-color: #f1f3f5 !important; border-color: #dee2e6 !important; opacity: 0.3; } 
+
+        .custom-notebook-box {
+            margin-top: 10px; border-top: 2px dashed #e9ecef; padding-top: 10px; text-align: left;
+            flex: 1; display: flex; flex-direction: column; overflow: hidden;
+        }
+        .inline-tab-group { display: flex; gap: 6px; font-size: 11px; font-weight: bold; margin-left: 15px; }
+        .inline-tab-item {
+            cursor: pointer; padding: 3px 8px; border-radius: 4px; background-color: #f1f3f5; color: #495057; border: 1px solid #dee2e6;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05); transition: all 0.15s ease;
+        }
+        .inline-tab-item:hover { background-color: #e9ecef; color: #28a745; }
+        .inline-tab-item.active { background-color: #fff4f9; color: #d63384; border-color: #fcc2d7; box-shadow: inset 0 1px 2px rgba(0,0,0,0.05); }
+
+        #custom-words-container { flex: 1; overflow-y: auto; padding-right: 4px; }
+        .flow-mixed-wrapper { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 4px 0; }
+        .inline-flow-tag {
+            display: inline-flex; align-items: center; justify-content: center; background-color: #fff0f6; color: #d63384; font-size: 11px; font-weight: bold;
+            padding: 0 6px; border-radius: 4px; height: 32px; box-sizing: border-box; border: 1px solid #ffdeeb; margin-right: 1px;
+        }
+
+        .word-card {
+            display: inline-flex; flex-direction: column; align-items: center; justify-content: center; background-color: #fff5f5; border: 1px solid #ffe3e3;
+            width: 52px; height: 32px; border-radius: 4px; position: relative; box-sizing: border-box;
+        }
+        .word-card .word-txt { font-size: 14px; font-weight: bold; color: #212529; line-height: 1.1; }
+        .word-card .word-count { font-size: 8px; color: #868e96; margin-top: 1px; font-weight: bold; }
+        .word-card .w-reset-btn { position: absolute; top: -1px; left: 2px; font-size: 8px; cursor: pointer; color: #ccc; font-weight: bold; }
+        .word-card .w-reset-btn:hover { color: #007bff; }
+        .word-card .w-del-btn { position: absolute; top: -1px; right: 2px; font-size: 8px; cursor: pointer; color: #ccc; font-weight: bold; }
+        .word-card .w-del-btn:hover { color: #dc3545; }
+    </style>
+</head>
+<body>
+
+    <div class="main-zone" id="mainZone">
+        <div class="global-main-title">
+            <span>🎤 韩语罗马音转换记忆本</span>
+            <button class="system-action-btn btn-blue" onclick="toggleGuideDisplay()" id="toggle-guide-btn">[ 📂 折叠指南 ]</button>
+        </div>
+
+        <div class="hint-box guide-hint-box" id="system-guide-box">
+            🚀 <strong>系统核心闭环逻辑：</strong><br>
+            1. <strong>粘贴转换</strong>：在下方框内贴入韩语文本，点击运行获取精确的变音罗马音及原音对照。<br>
+            2. <strong>点击收录</strong>：直接点击渲染出的<strong>韩语汉字原文</strong>，该字符将即刻进入右下角错字自习本，同时全自动拆解其对应的字母组件！<br>
+            3. <strong>五级进化</strong>：随着点击次数增多，字母、错字卡片乃至左侧原文颜色会经历【绿➔黄➔橙➔红➔深紫红】的深度蜕变。<br><br>
+            📞 <strong>联系作者</strong>： <br>
+            🌐 <strong>在线网址</strong>： </div>
+
+        <div class="standard-header-row theme-input">
+            <h2>📝 粘贴需要转换的韩语文本</h2>
+            <span style="font-size: 11px; color:#90caf9; font-weight: bold;">INPUT REGION</span>
+        </div>
+        <textarea id="userInput" placeholder="在此贴入需要练习的韩语文本..."></textarea>
+        <button class="action-btn" onclick="myOwnRomanize(true)">运行智能五级联动转换</button>
+        
+        <div class="standard-header-row theme-output" style="margin-top: 15px;">
+            <h2>🎤 实时联动转化与多维注音看板</h2>
+            <span style="font-size: 11px; color:#b0bec5; font-weight: bold;">OUTPUT REGION</span>
+        </div>
+        <div class="result-box" id="userOutput">转换结果将在这里显示...</div>
+
+        <div class="standard-header-row theme-history" style="margin-top: 15px;">
+            <h2>⏳ 历史转化记录追踪舱</h2>
+            <button class="system-action-btn btn-purple" onclick="toggleHistoryDisplay()" id="toggle-history-btn">[ 📂 折叠历史 ]</button>
+        </div>
+        <div id="history-section-wrapper">
+            <div class="history-flow-wrapper" id="history-cards-container">
+                <span style="font-size: 12px; color: #999; padding: 4px;">暂无转换历史记录记录...</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="resizer" id="dragResizer"></div>
+
+    <div class="side-panel">
+        <div class="standard-header-row theme-dict">
+            <h3>📊 字母热力频次图看板</h3>
+            <div class="header-action-group">
+                <button id="cycle-display-btn" class="system-action-btn btn-blue" onclick="cycleLabelMode()">[ 👁️ 全显 ]</button>
+                <button id="toggle-alphabet-btn" class="system-action-btn btn-green" onclick="toggleAlphabetDisplay()">[ 📂 折叠字母表 ]</button>
+            </div>
+        </div>
+
+        <div class="hint-box">
+            <div class="color-legend-bar" style="border:none; margin:0; padding:0;">
+                <span class="legend-item" style="background-color:#4CAF50;">1-2次 偶然失误</span>
+                <span class="legend-item" style="background-color:#FBC02D;">3-4次 尚未掌握</span>
+                <span class="legend-item" style="background-color:#FB8C00;">5-7次 重点关注</span>
+                <span class="legend-item" style="background-color:#E53935;">8-12次 顽固错误</span>
+                <span class="legend-item" style="background-color:#6A1B9A;">13次+ 重构方法</span>
+            </div>
+        </div>
+
+        <div id="master-alphabet-wrapper">
+            <div class="dict-section"><div class="inline-flow-tag">[元音]</div><div class="grid-container" id="grid-vowels"></div></div>
+            <div class="dict-section"><div class="inline-flow-tag">[双元]</div><div class="grid-container" id="grid-diphthongs"></div></div>
+            <div class="dict-section"><div class="inline-flow-tag">[辅音]</div><div class="grid-container" id="grid-base-consonants"></div></div>
+            <div class="dict-section"><div class="inline-flow-tag">[送气]</div><div class="grid-container" id="grid-aspirated"></div></div>
+            <div class="dict-section"><div class="inline-flow-tag">[紧音]</div><div class="grid-container" id="grid-tense"></div></div>
+        </div>
+
+        <div class="custom-notebook-box">
+            <div class="standard-header-row theme-notebook">
+                <div style="display: flex; align-items: center;">
+                    <h3>📝 联动错字自习本</h3>
+                    <div class="inline-tab-group">
+                        <span class="inline-tab-item active" id="st-all" onclick="setSortType('all')">全部</span>
+                        <span class="inline-tab-item" id="st-vowels" onclick="setSortType('vowels')">元音</span>
+                        <span class="inline-tab-item" id="st-diphthongs" onclick="setSortType('diphthongs')">双元音</span>
+                        <span class="inline-tab-item" id="st-aspirated" onclick="setSortType('aspirated')">送气音</span>
+                        <span class="inline-tab-item" id="st-tense" onclick="setSortType('tense')">紧音</span>
+                    </div>
+                </div>
+                <div class="header-action-group">
+                    <button class="system-action-btn btn-red" onclick="clearAllCustomWords()">[ 🗑️ 清空全部错字 ]</button>
+                </div>
+            </div>
+            <div id="custom-words-container">
+                <p style="font-size:12px; color:#999;">您在左侧点击过的韩字将会收录至此...</p>
+            </div>
+        </div>
+    </div>
+
+<script>
+    /* ==========================================================================
+       【第七部分：核心算法与状态机仓库】
+       ========================================================================== */
+    const INITIALS = ['g', 'kk', 'n', 'd', 'tt', 'r', 'm', 'b', 'pp', 's', 'ss', '', 'j', 'jj', 'ch', 'k', 't', 'p', 'h'];
+    const MEDIALS = ['a', 'ae', 'ya', 'yae', 'eo', 'e', 'ye', 'ye', 'o', 'wa', 'wae', 'oe', 'yo', 'u', 'wo', 'we', 'wi', 'yu', 'eu', 'ui', 'i'];
+    const FINALS = ['', 'k', 'kk', 'ks', 'n', 'nj', 'nh', 'd', 'l', 'lg', 'lm', 'lb', 'ls', 'lt', 'lp', 'lh', 'm', 'p', 'ps', 's', 'ss', 'ng', 'j', 'ch', 'k', 't', 'p', 'h'];
+
+    const NEW_VOWELS = [{k:'ㅏ', r:'a', z:'啊'}, {k:'ㅓ', r:'eo', z:'俄'}, {k:'ㅗ', r:'o', z:'喔'}, {k:'ㅜ', r:'u', z:'乌'}, {k:'ㅡ', r:'eu', z:'呃'}, {k:'ㅣ', r:'i', z:'衣'}, {k:'ㅑ', r:'ya', z:'呀'}, {k:'ㅕ', r:'yeo', z:'哟'}, {k:'ㅛ', r:'yo', z:'哟'}, {k:'ㅠ', r:'yu', z:'优'}];
+    const NEW_DIPHTHONGS = [{k:'ㅐ', r:'ae', z:'哎'}, {k:'ㅔ', r:'e', z:'诶'}, {k:'ㅒ', r:'yae', z:'呀'}, {k:'ㅖ', r:'ye', z:'耶'}, {k:'ㅘ', r:'wa', z:'哇'}, {k:'ㅙ', r:'wae', z:'歪'}, {k:'ㅚ', r:'oe', z:'威'}, {k:'ㅝ', r:'wo', z:'沃'}, {k:'ㅞ', r:'we', z:'威'}, {k:'ㅟ', r:'wi', z:'wi'}, {k:'ㅢ', r:'ui', z:'ui'}];
+    const NEW_BASE_CONSONANTS = [{k:'ㄱ', r:'g/k', z:'哥'}, {k:'ㄴ', r:'n', z:'呢'}, {k:'ㄷ', r:'d/t', z:'德'}, {k:'ㄹ', r:'r/l', z:'勒'}, {k:'ㅁ', r:'m', z:'姆'}, {k:'ㅂ', r:'b/p', z:'波'}, {k:'ㅅ', r:'s', z:'丝'}, {k:'ㅇ', r:'ng', z:'鼻'}, {k:'ㅈ', r:'j', z:'鸡'}];
+    const NEW_ASPIRATED = [{k:'ㅋ', r:'k', z:'客'}, {k:'ㅌ', r:'t', z:'特'}, {k:'ㅍ', r:'p', z:'坡'}, {k:'ㅊ', r:'ch', z:'七'}];
+    const NEW_TENSE = [{k:'ㄲ', r:'kk', z:'岗'}, {k:'ㄸ', r:'tt', z:'当'}, {k:'ㅃ', r:'pp', z:'帮'}, {k:'ㅆ', r:'ss', z:'双'}, {k:'ㅉ', r:'jj', z:'酱'}];
+
+    const FINAL_TO_INITIAL_MAP = { 'k':'ㄱ', 'kk':'ㄲ', 'ks':'ㄱ', 'n':'ㄴ', 'nj':'ㄴ', 'nh':'ㄴ', 'd':'ㄷ', 'l':'ㄹ', 'lg':'ㄹ', 'lm':'ㄹ', 'lb':'ㄹ', 'ls':'ㄹ', 'lt':'ㄹ', 'lp':'ㄹ', 'lh':'ㄹ', 'm':'ㅁ', 'p':'ㅂ', 'ps':'ㅂ', 's':'ㅅ', 'ss':'ㅆ', 'ng':'ㅇ', 'j':'ㅈ', 'ch':'ㅊ', 't':'ㄷ', 'h':'ㅎ' };
+
+    let letterCounts = JSON.parse(localStorage.getItem('L_COUNTS')) || {}; 
+    let letterLocks = JSON.parse(localStorage.getItem('L_LOCKS')) || {};   
+    let customWords = JSON.parse(localStorage.getItem('C_WORDS')) || {};   
+    let conversionHistory = JSON.parse(localStorage.getItem('C_HISTORY')) || []; // 转化历史数组
+    
+    let labelMode = 0; 
+
+    function getColorClassByCount(count) {
+        if (count <= 0) return "";
+        if (count >= 1 && count <= 2) return "color-l1";   
+        if (count >= 3 && count <= 4) return "color-l2";   
+        if (count >= 5 && count <= 7) return "color-l3";   
+        if (count >= 8 && count <= 12) return "color-l4";  
+        return "color-l5";                                 
+    }
+
+    /* ==========================================================================
+       【第八部分：整体界面拉伸与折叠交互逻辑】
+       ========================================================================== */
+    const resizer = document.getElementById('dragResizer');
+    const mainZone = document.getElementById('mainZone');
+    let isDragging = false;
+
+    resizer.addEventListener('mousedown', () => { isDragging = true; resizer.classList.add('active'); });
+    document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        let percentage = (e.clientX / window.innerWidth) * 100;
+        if (percentage >= 25 && percentage <= 75) mainZone.style.width = percentage + '%';
+    });
+    document.addEventListener('mouseup', () => { isDragging = false; resizer.classList.remove('active'); });
+
+    window.toggleGuideDisplay = function() {
+        const box = document.getElementById('system-guide-box');
+        const btn = document.getElementById('toggle-guide-btn');
+        box.classList.toggle('collapsed');
+        btn.innerText = box.classList.contains('collapsed') ? "[ 📂 展开指南 ]" : "[ 📂 折叠指南 ]";
+    };
+
+    window.toggleHistoryDisplay = function() {
+        const wrapper = document.getElementById('history-section-wrapper');
+        const btn = document.getElementById('toggle-history-btn');
+        wrapper.classList.toggle('collapsed');
+        btn.innerText = wrapper.classList.contains('collapsed') ? "[ 📂 展开历史 ]" : "[ 📂 折叠历史 ]";
+    };
+
+    window.toggleAlphabetDisplay = function() {
+        const wrapper = document.getElementById('master-alphabet-wrapper');
+        const btn = document.getElementById('toggle-alphabet-btn');
+        wrapper.classList.toggle('collapsed');
+        btn.innerText = wrapper.classList.contains('collapsed') ? "[ 📂 展开字母表 ]" : "[ 📂 折叠字母表 ]";
+    };
+
+    window.cycleLabelMode = function() {
+        labelMode = (labelMode + 1) % 4;
+        const btn = document.getElementById('cycle-display-btn');
+        const modesHint = ["[ 👁️ 全显 ]", "[ 👁️ 仅发音 ]", "[ 👁️ 仅罗马 ]", "[ 👁️ 纯字母 ]"];
+        btn.innerText = modesHint[labelMode];
+        renderAllGrids();
+    };
+
+    /* ==========================================================================
+       【第九部分：全自动字形拆分核心联动算法】
+       ========================================================================== */
+    window.linkKoreanCharClick = function(char) {
+        let code = char.charCodeAt(0);
+        if (code >= 44032 && code <= 55203) {
+            let idx = code - 44032;
+            let fIdx = idx % 28;                                 
+            let mIdx = Math.floor((idx / 28)) % 21;       
+            let iIdx = Math.floor(Math.floor((idx / 28)) / 21); 
+
+            let partInit = INITIALS[iIdx];
+            let partMed = MEDIALS[mIdx];
+            let partFin = FINALS[fIdx];
+
+            let allConsonants = NEW_BASE_CONSONANTS.concat(NEW_ASPIRATED, NEW_TENSE);
+            let krInit = allConsonants.find(o => o.r.split('/')[0] === partInit || o.r === partInit)?.k || '';
+            let krMed = NEW_VOWELS.concat(NEW_DIPHTHONGS).find(o => o.r === partMed || (partMed==='yeo' && o.r==='yeo'))?.k || '';
+            let krFin = FINAL_TO_INITIAL_MAP[partFin] || '';
+
+            if (!krMed) krMed = 'ㅏ'; 
+
+            if (!customWords[char]) {
+                customWords[char] = { count: 0, init: krInit, med: krMed, fin: krFin };
+            }
+            customWords[char].count += 1;
+
+            if (krInit && !letterLocks[krInit]) letterCounts[krInit] = (letterCounts[krInit] || 0) + 1;
+            if (krMed && !letterLocks[krMed]) letterCounts[krMed] = (letterCounts[krMed] || 0) + 1;
+            if (krFin && !letterLocks[krFin]) letterCounts[krFin] = (letterCounts[krFin] || 0) + 1;
+
+            saveAndRefresh();
+            myOwnRomanize(false); // 重绘面板，不追加重复的历史卡片
+        }
+    };
+
+    /* ==========================================================================
+       【第十部分：历史转化记录渲染与回溯引擎】
+       ========================================================================== */
+    function renderHistoryPanel() {
+        const container = document.getElementById('history-cards-container');
+        if (conversionHistory.length === 0) {
+            container.innerHTML = `<span style="font-size: 12px; color: #999; padding: 4px;">暂无转换历史记录...</span>`;
+            return;
+        }
+
+        container.innerHTML = conversionHistory.map((item, index) => {
+            // 截取前 12 个字符作为缩略文本
+            let previewText = item.text.length > 12 ? item.text.substring(0, 12) + "..." : item.text;
+            return `
+                <div class="history-card" onclick="recallHistoryItem(${index})">
+                    <span class="hist-time">[${item.time}]</span>
+                    <span class="hist-preview">${escapeHtml(previewText)}</span>
+                </div>
+            `;
+        }).join('');
+    }
+
+    window.recallHistoryItem = function(index) {
+        let item = conversionHistory[index];
+        if (item) {
+            document.getElementById('userInput').value = item.text;
+            myOwnRomanize(false); // 回溯加载不产生新的重复历史词条
+        }
+    };
+
+    function escapeHtml(text) {
+        return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    /* ==========================================================================
+       【第十一部分：主转换引擎与数据持久化】
+       ========================================================================== */
+    window.myOwnRomanize = function(isNewTrigger = true) {
+        const input = document.getElementById('userInput').value;
+        const output = document.getElementById('userOutput');
+        if (!output) return;
+        if (!input.trim()) { output.innerText = '转换结果将在这里显示...'; return; }
+
+        // 如果是手动点大按钮触发的新转换，追加到历史堆栈（防重过滤）
+        if (isNewTrigger) {
+            let now = new Date();
+            let timeStr = String(now.getHours()).padStart(2, '0') + ":" + 
+                          String(now.getMinutes()).padStart(2, '0') + ":" + 
+                          String(now.getSeconds()).padStart(2, '0');
+            
+            // 过滤连续重复的内容
+            if (conversionHistory.length === 0 || conversionHistory[0].text !== input.trim()) {
+                conversionHistory.unshift({ text: input.trim(), time: timeStr });
+                if (conversionHistory.length > 30) conversionHistory.pop(); // 上限30条
+                localStorage.setItem('C_HISTORY', JSON.stringify(conversionHistory));
+                renderHistoryPanel();
+            }
+        }
+
+        let lines = input.split('\n');
+        let finalHTML = "";
+
+        lines.forEach(line => {
+            if (!line.trim()) { finalHTML += '<br>'; return; }
+
+            let lineHTML = "";
+            let parsedWords = [];
+            for (let i = 0; i < line.length; i++) {
+                let char = line[i];
+                let code = char.charCodeAt(0);
+                if (code >= 44032 && code <= 55203) {
+                    let idx = code - 44032;
+                    parsedWords.push({
+                        type: 'kr', char: char, fIdx: idx % 28,
+                        mIdx: Math.floor((idx / 28)) % 21,
+                        iIdx: Math.floor(Math.floor((idx / 28)) / 21)
+                    });
+                } else {
+                    parsedWords.push({ type: 'other', char: char });
+                }
+            }
+
+            for (let i = 0; i < parsedWords.length; i++) {
+                let curr = parsedWords[i];
+
+                if (curr.type === 'kr') {
+                    let literalRomaji = INITIALS[curr.iIdx] + MEDIALS[curr.mIdx] + FINALS[curr.fIdx];
+                    let prInit = INITIALS[curr.iIdx];
+                    let prMed = MEDIALS[curr.mIdx];
+                    let prFin = FINALS[curr.fIdx];
+                    let next = (i + 1 < parsedWords.length) ? parsedWords[i + 1] : null;
+
+                    if (FINALS[curr.fIdx] === 'p' && next && next.type === 'kr' && (INITIALS[next.iIdx] === 'n' || INITIALS[next.iIdx] === 'm')) prFin = 'm';
+                    if (FINALS[curr.fIdx] === 'k' && next && next.type === 'kr' && (INITIALS[next.iIdx] === 'n' || INITIALS[next.iIdx] === 'm')) prFin = 'ng';
+                    if (curr.char === '끊') { prFin = ''; } 
+                    if (curr.char === '임') { prInit = 'n'; prFin = ''; } 
+                    if (curr.char === '없') { prInit = 'n'; prFin = 'p'; }
+                    if (curr.char === '이') { prInit = 's'; }
+
+                    let pronounceRomaji = prInit + prMed + prFin;
+                    let topHTML = (literalRomaji !== pronounceRomaji) ? `<span class="literal-romaji">${literalRomaji}</span>` : "";
+
+                    // 原文汉字动态打通五级热力颜色阶梯
+                    let errorColorClass = "";
+                    if (customWords[curr.char]) {
+                        errorColorClass = getColorClassByCount(customWords[curr.char].count);
+                    }
+
+                    lineHTML += `<ruby class="kr-ruby">${topHTML}<span class="pronounce-romaji">${pronounceRomaji}</span><rt class="${errorColorClass}" onclick="linkKoreanCharClick('${curr.char}')">${curr.char}</rt></ruby>`;
+                } else {
+                    lineHTML += curr.char === ' ' ? '&nbsp;' : `<span class="normal-char">${curr.char}</span>`;
+                }
+            }
+
+            finalHTML += `<div class="lyrics-line-row">${lineHTML}</div>`;
+        });
+
+        output.innerHTML = finalHTML;
+    };
+
+    /* ==========================================================================
+       【第十二部分：面板UI同步渲染引擎】
+       ========================================================================== */
+    function renderAllGrids() {
+        renderSingleGrid('grid-vowels', NEW_VOWELS);
+        renderSingleGrid('grid-diphthongs', NEW_DIPHTHONGS);
+        renderSingleGrid('grid-base-consonants', NEW_BASE_CONSONANTS);
+        renderSingleGrid('grid-aspirated', NEW_ASPIRATED);
+        renderSingleGrid('grid-tense', NEW_TENSE);
+    }
+
+    function renderSingleGrid(elementId, dataset) {
+        const container = document.getElementById(elementId);
+        container.innerHTML = dataset.map(item => {
+            let count = letterCounts[item.k] || 0;
+            let isLocked = letterLocks[item.k] || false;
+            let cardStateClass = isLocked ? "card-locked" : "";
+            let textColorClass = isLocked ? "" : getColorClassByCount(count);
+            let lockIcon = isLocked ? "🔒" : "🔓";
+            let activeLockClass = isLocked ? "locked" : "";
+
+            let infoLineHTML = "";
+            if (labelMode === 0) { infoLineHTML = `<span>${item.r}</span><span>${item.z}</span>`; } 
+            else if (labelMode === 1) { infoLineHTML = `<span>${item.z}</span>`; } 
+            else if (labelMode === 2) { infoLineHTML = `<span>${item.r}</span>`; }
+
+            return `
+                <div class="letter-card ${cardStateClass}">
+                    <span class="main-txt ${textColorClass}">${item.k}</span>
+                    <div class="card-info-line">${infoLineHTML}</div>
+                    <span class="lock-btn ${activeLockClass}" onclick="toggleLockLetter('${item.k}')">${lockIcon}</span>
+                    <span class="count-badge">${count}</span>
+                </div>
+            `;
+        }).join('');
+    }
+
+    window.toggleLockLetter = function(letter) {
+        letterLocks[letter] = !letterLocks[letter];
+        if (letterLocks[letter]) letterCounts[letter] = 0; 
+        saveAndRefresh();
+    };
+
+    let currentSortType = 'all'; 
+    window.setSortType = function(type) {
+        currentSortType = type;
+        document.querySelectorAll('.inline-tab-item').forEach(el => el.classList.remove('active'));
+        document.getElementById('st-' + type).classList.add('active');
+        renderCustomNotebook();
+    };
+
+    window.clearAllCustomWords = function() {
+        if(confirm("确定要清空错字自习本和所有历史历史吗？")) {
+            customWords = {}; letterCounts = {}; conversionHistory = [];
+            localStorage.removeItem('C_HISTORY');
+            saveAndRefresh();
+            document.getElementById('userInput').value = "";
+            document.getElementById('userOutput').innerText = '转换结果将在这里显示...';
+        }
+    };
+
+    function renderCustomNotebook() {
+        const container = document.getElementById('custom-words-container');
+        let keys = Object.keys(customWords);
+        if (keys.length === 0) {
+            container.innerHTML = `<p style="font-size:12px; color:#999; padding: 5px;">您在左侧点击过的韩字将会收录至此...</p>`;
+            return;
+        }
+
+        let wordList = keys.map(k => ({ char: k, ...customWords[k] }));
+        let finalHTML = `<div class="flow-mixed-wrapper">`;
+        let categorySource = []; let typeShortLabel = ""; let checkIsConsonant = false; 
+
+        if (currentSortType === 'all') { categorySource = NEW_BASE_CONSONANTS; checkIsConsonant = true; } 
+        else {
+            switch(currentSortType) {
+                case 'vowels': categorySource = NEW_VOWELS; typeShortLabel = "元"; break;
+                case 'diphthongs': categorySource = NEW_DIPHTHONGS; typeShortLabel = "双"; break;
+                case 'aspirated': categorySource = NEW_ASPIRATED; typeShortLabel = "气"; checkIsConsonant = true; break;
+                case 'tense': categorySource = NEW_TENSE; typeShortLabel = "紧"; checkIsConsonant = true; break;
+            }
+        }
+
+        categorySource.forEach(cate => {
+            let matchedWords = wordList.filter(w => checkIsConsonant ? (w.init === cate.k || w.fin === cate.k) : (w.med === cate.k));
+            if (matchedWords.length > 0) {
+                matchedWords.sort((a, b) => b.count - a.count);
+                let shortTag = typeShortLabel ? `${typeShortLabel}:${cate.k}` : cate.k;
+                finalHTML += `<div class="inline-flow-tag">${shortTag}</div>`;
+                matchedWords.forEach(item => {
+                    let textColorClass = getColorClassByCount(item.count);
+                    finalHTML += `
+                        <div class="word-card">
+                            <span class="w-reset-btn" onclick="resetSingleWord('${item.char}')">↺</span>
+                            <span class="w-del-btn" onclick="deleteSingleWord('${item.char}')">×</span>
+                            <span class="word-txt ${textColorClass}">${item.char}</span>
+                            <span class="word-count">${item.count}次</span>
+                        </div>
+                    `;
+                });
+            }
+        });
+
+        if (currentSortType === 'all') {
+            let baseConsonantsKeys = NEW_BASE_CONSONANTS.map(c => c.k);
+            let leftoverWords = wordList.filter(w => !baseConsonantsKeys.includes(w.init) && !baseConsonantsKeys.includes(w.fin));
+            if (leftoverWords.length > 0) {
+                leftoverWords.sort((a, b) => b.count - a.count);
+                finalHTML += `<div class="inline-flow-tag">其他</div>`;
+                leftoverWords.forEach(item => {
+                    let textColorClass = getColorClassByCount(item.count);
+                    finalHTML += `
+                        <div class="word-card">
+                            <span class="w-reset-btn" onclick="resetSingleWord('${item.char}')">↺</span>
+                            <span class="w-del-btn" onclick="deleteSingleWord('${item.char}')">×</span>
+                            <span class="word-txt ${textColorClass}">${item.char}</span>
+                            <span class="word-count">${item.count}次</span>
+                        </div>
+                    `;
+                });
+            }
+        }
+        finalHTML += `</div>`;
+        container.innerHTML = finalHTML === `<div class="flow-mixed-wrapper"></div>` ? `<p style="font-size:12px; color:#bbb; padding: 5px;">该分类下无错字。</p>` : finalHTML;
+    }
+
+    window.resetSingleWord = function(char) {
+        let item = customWords[char];
+        if (item && item.count > 1) {
+            let diff = item.count - 1; 
+            if (item.init && letterCounts[item.init]) letterCounts[item.init] = Math.max(0, letterCounts[item.init] - diff);
+            if (item.med && letterCounts[item.med]) letterCounts[item.med] = Math.max(0, letterCounts[item.med] - diff);
+            if (item.fin && letterCounts[item.fin]) letterCounts[item.fin] = Math.max(0, letterCounts[item.fin] - diff);
+            item.count = 1; 
+        }
+        saveAndRefresh();
+        myOwnRomanize(false);
+    };
+
+    window.deleteSingleWord = function(char) {
+        let item = customWords[char];
+        if (item) {
+            if (item.init && letterCounts[item.init]) letterCounts[item.init] = Math.max(0, letterCounts[item.init] - item.count);
+            if (item.med && letterCounts[item.med]) letterCounts[item.med] = Math.max(0, letterCounts[item.med] - item.count);
+            if (item.fin && letterCounts[item.fin]) letterCounts[item.fin] = Math.max(0, letterCounts[item.fin] - item.count);
+            delete customWords[char];
+        }
+        saveAndRefresh();
+        myOwnRomanize(false);
+    };
+
+    function saveAndRefresh() {
+        localStorage.setItem('L_COUNTS', JSON.stringify(letterCounts));
+        localStorage.setItem('L_LOCKS', JSON.stringify(letterLocks));
+        localStorage.setItem('C_WORDS', JSON.stringify(customWords));
+        renderAllGrids();
+        renderCustomNotebook();
+    }
+
+    // 初始化加载
+    renderAllGrids();
+    renderCustomNotebook();
+    renderHistoryPanel();
+</script>
+</body>
+</html>

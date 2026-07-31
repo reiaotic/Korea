@@ -2,26 +2,17 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-<<<<<<< HEAD
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>韩语罗马音多维记忆工作台 - 历史回溯极简版</title>
-=======
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>韩语罗马音多维记忆工作台 - 国际化联动版</title>
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
+    <title>韩语罗马音多维记忆工作台 - 国际化 · 历史回溯版</title>
     <style>
         /* ==========================================================================
            【第一部分：全局与分栏布局样式】
            ========================================================================== */
-<<<<<<< HEAD
-       * {
-    max-width: 100%; /* 禁止任何元素超出屏幕宽度 */
-    box-sizing: border-box;
-}
-           body {
-=======
+        * {
+            max-width: 100%; /* 禁止任何元素超出屏幕宽度 */
+            box-sizing: border-box;
+        }
         body {
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f5f7fa;
             margin: 0;
@@ -74,47 +65,40 @@
             padding: 20px;
         }
 
-<<<<<<< HEAD
-
         /* 手机端适配代码 */
-@media screen and (max-width: 768px) {
-    body {
-        flex-direction: column; /* 改为垂直堆叠 */
-        overflow-y: auto;       /* 开启页面滚动 */
-        padding: 10px;
-    }
-    .main-zone {
-        width: 100% !important; /* 主区域占满全屏 */
-        border-radius: 12px;
-        margin-bottom: 10px;
-    }
-    .side-panel {
-        width: 100% !important; /* 侧边栏占满全屏 */
-        border-radius: 12px;
-    }
-    .resizer {
-        display: none; /* 手机端隐藏调整宽度的拖拽条 */
-    }
-    .lyrics-line-row {
-        justify-content: center; /* 歌词居中显示 */
-    }
-    /* 增加手机端输入框高度，防止太矮 */
-    textarea { height: 120px; }
-    
-    /* 确保按钮在手机上点击面积足够 */
-    .action-btn { padding: 16px; font-size: 16px; }
-    
-    /* 修复历史卡片和字母表在小屏幕上的排列 */
-    .history-card { width: 100%; max-width: 100%; }
-}
+        @media screen and (max-width: 768px) {
+            body {
+                flex-direction: column; /* 改为垂直堆叠 */
+                overflow-y: auto;       /* 开启页面滚动 */
+                padding: 10px;
+            }
+            .main-zone {
+                width: 100% !important; /* 主区域占满全屏 */
+                border-radius: 12px;
+                margin-bottom: 10px;
+            }
+            .side-panel {
+                width: 100% !important; /* 侧边栏占满全屏 */
+                border-radius: 12px;
+            }
+            .resizer {
+                display: none; /* 手机端隐藏调整宽度的拖拽条 */
+            }
+            .lyrics-line-row {
+                justify-content: center; /* 歌词居中显示 */
+            }
+            /* 增加手机端输入框高度，防止太矮 */
+            textarea { height: 120px; }
 
+            /* 确保按钮在手机上点击面积足够 */
+            .action-btn { padding: 16px; font-size: 16px; }
 
-        /* ==========================================================================
-           【第二部分：全站大标题视觉规范样式管理】
-=======
+            /* 修复历史卡片和字母表在小屏幕上的排列 */
+            .history-card { width: 100%; max-width: 100%; }
+        }
+
         /* ==========================================================================
            【第二部分：全站大标题与语言切换样式】
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
            ========================================================================== */
         .global-main-title {
             font-size: 20px;
@@ -124,8 +108,6 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-<<<<<<< HEAD
-=======
             flex-wrap: wrap;
             gap: 10px;
         }
@@ -155,20 +137,19 @@
             background-color: #ffffff;
             color: #0288D1;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
         }
 
         .standard-header-row {
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            margin-bottom: 12px; 
-            padding-bottom: 6px; 
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
             border-bottom: 1px solid #e9ecef;
         }
         .standard-header-row h2, .standard-header-row h3 {
-            font-size: 14px; 
-            margin: 0; 
+            font-size: 14px;
+            margin: 0;
             font-weight: bold;
         }
         /* 主题识别色分支 */
@@ -183,11 +164,11 @@
             gap: 8px;
         }
         .system-action-btn {
-            background: none; 
-            border: none; 
-            font-size: 11px; 
-            font-weight: bold; 
-            cursor: pointer; 
+            background: none;
+            border: none;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
             padding: 2px 4px;
             transition: color 0.2s;
         }
@@ -277,9 +258,9 @@
             border-radius: 6px;
             flex: 1;
             text-align: left;
-            font-size: 16px; 
-            white-space: pre-wrap; 
-            line-height: 3.5; 
+            font-size: 16px;
+            white-space: pre-wrap;
+            line-height: 3.5;
             overflow-y: auto;
             min-height: 120px;
         }
@@ -305,10 +286,7 @@
             gap: 6px;
             padding: 4px 0;
         }
-<<<<<<< HEAD
         /* 拟物自习卡片设计 */
-=======
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
         .history-card {
             display: inline-flex;
             flex-direction: column;
@@ -358,21 +336,21 @@
 
         ruby.kr-ruby {
             display: inline-flex;
-            flex-direction: column; 
-            align-items: center;    
+            flex-direction: column;
+            align-items: center;
             vertical-align: top;
-            margin-right: 10px;   
-            line-height: 1.2; 
-            position: relative; 
-            margin-top: 20px;   
+            margin-right: 10px;
+            line-height: 1.2;
+            position: relative;
+            margin-top: 20px;
         }
 
         ruby.kr-ruby rt {
             display: block;
-            font-size: 14px;     
-            color: #6c757d;      
-            font-weight: bold; 
-            margin-top: 4px;     
+            font-size: 14px;
+            color: #6c757d;
+            font-weight: bold;
+            margin-top: 4px;
             cursor: pointer;
             padding: 0 4px;
             border-radius: 4px;
@@ -404,26 +382,26 @@
             margin-bottom: 0 !important;
         }
 
-        .dict-section { 
-            margin-bottom: 6px; 
-            text-align: left; 
-            display: flex; 
-            align-items: flex-start; 
+        .dict-section {
+            margin-bottom: 6px;
+            text-align: left;
+            display: flex;
+            align-items: flex-start;
             gap: 6px;
         }
         .grid-container { display: flex; flex-wrap: wrap; gap: 4px; flex: 1; }
 
         .letter-card {
-            background-color: #f0f4f8; border: 1px solid #d0e1fd; border-radius: 4px; 
-            padding: 4px 6px; box-sizing: border-box; position: relative; display: inline-flex; 
+            background-color: #f0f4f8; border: 1px solid #d0e1fd; border-radius: 4px;
+            padding: 4px 6px; box-sizing: border-box; position: relative; display: inline-flex;
             align-items: center; gap: 4px; height: 28px;
         }
         .letter-card .main-txt { font-size: 14px; font-weight: bold; color: #333; }
         .letter-card .card-info-line { display: flex; gap: 3px; font-size: 10px; font-weight: bold; color: #666; white-space: nowrap; }
         .letter-card .lock-btn { position: absolute; top: -1px; right: 1px; font-size: 7px; cursor: pointer; color: #bbb; }
-        .letter-card .lock-btn.locked { color: #ae3ec9; font-weight: bold; } 
+        .letter-card .lock-btn.locked { color: #ae3ec9; font-weight: bold; }
         .letter-card .count-badge { font-size: 9px; color: #999; font-weight: bold; margin-left: 2px; }
-        .card-locked { background-color: #f1f3f5 !important; border-color: #dee2e6 !important; opacity: 0.3; } 
+        .card-locked { background-color: #f1f3f5 !important; border-color: #dee2e6 !important; opacity: 0.3; }
 
         .custom-notebook-box {
             margin-top: 10px; border-top: 2px dashed #e9ecef; padding-top: 10px; text-align: left;
@@ -454,41 +432,12 @@
         .word-card .w-reset-btn:hover { color: #007bff; }
         .word-card .w-del-btn { position: absolute; top: -1px; right: 2px; font-size: 8px; cursor: pointer; color: #ccc; font-weight: bold; }
         .word-card .w-del-btn:hover { color: #dc3545; }
-<<<<<<< HEAD
-    
-    
-    
-=======
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
     </style>
 </head>
 <body>
 
     <div class="main-zone" id="mainZone">
         <div class="global-main-title">
-<<<<<<< HEAD
-            <span>🎤 韩语罗马音转换记忆本</span>
-            <button class="system-action-btn btn-blue" onclick="toggleGuideDisplay()" id="toggle-guide-btn">[ 📂 折叠指南 ]</button>
-        </div>
-
-        <div class="hint-box guide-hint-box" id="system-guide-box">
-            🚀 <strong>系统核心闭环逻辑：</strong><br>
-            1. <strong>粘贴转换</strong>：在下方框内贴入韩语文本，点击运行获取精确的变音罗马音及原音对照。<br>
-            2. <strong>点击收录</strong>：直接点击渲染出的<strong>韩语汉字原文</strong>，该字符将即刻进入右下角错字自习本，同时全自动拆解其对应的字母组件！<br>
-            3. <strong>五级进化</strong>：随着点击次数增多，字母、错字卡片乃至左侧原文颜色会经历【绿➔黄➔橙➔红➔深紫红】的深度蜕变。<br><br>
-            📞 <strong>联系作者</strong>： <br>
-            🌐 <strong>在线网址</strong>： </div>
-
-        <div class="standard-header-row theme-input">
-            <h2>📝 粘贴需要转换的韩语文本</h2>
-            <span style="font-size: 11px; color:#90caf9; font-weight: bold;">INPUT REGION</span>
-        </div>
-        <textarea id="userInput" placeholder="在此贴入需要练习的韩语文本..."></textarea>
-        <button class="action-btn" onclick="myOwnRomanize(true)">运行转换</button>
-        
-        <div class="standard-header-row theme-output" style="margin-top: 15px;">
-            <h2>🎤 实时联动转化与多维注音看板</h2>
-=======
             <span id="ui-main-title">🎤 韩语罗马音转换记忆本</span>
             <div style="display: flex; align-items: center; gap: 8px;">
                 <div class="lang-tab-group">
@@ -507,40 +456,30 @@
                 1. <strong>粘贴转换</strong>：在下方框内贴入韩语文本，点击运行获取精确的变音罗马音及原音对照。<br>
                 2. <strong>点击收录</strong>：直接点击渲染出的<strong>韩语汉字原文</strong>，该字符将即刻进入右下角错字自习本，同时全自动拆解其对应的字母组件！<br>
                 3. <strong>五级进化</strong>：随着点击次数增多，字母、错字卡片乃至左侧原文颜色会经历【绿➔黄➔橙➔红➔深紫红】的深度蜕变。<br><br>
-            📞 <strong>联系作者</strong>：choreikotan@gmail.com <br>
-            🌐 <strong>在线网址</strong>：https://reiaotic.github.io/Korea/ 
+            </div>
+            📞 <strong><span id="ui-author-label">联系作者</span></strong>：choreikotan@gmail.com <br>
+            🌐 <strong><span id="ui-url-label">在线网址</span></strong>：https://reiaotic.github.io/Korea/
         </div>
 
         <div class="standard-header-row theme-input">
             <h2 id="ui-title-input">📝 粘贴需要转换的韩语文本</h2>
             <span style="font-size: 11px; color:#90caf9; font-weight: bold;">INPUT REGION</span>
         </div>
-        <textarea id="userInput" placeholder="..."></textarea>
+        <textarea id="userInput" placeholder="在此贴入需要练习的韩语文本..."></textarea>
         <button class="action-btn" id="ui-btn-run" onclick="myOwnRomanize(true)">运行智能五级联动转换</button>
-        
+
         <div class="standard-header-row theme-output" style="margin-top: 15px;">
             <h2 id="ui-title-output">🎤 实时联动转化与多维注音看板</h2>
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
             <span style="font-size: 11px; color:#b0bec5; font-weight: bold;">OUTPUT REGION</span>
         </div>
         <div class="result-box" id="userOutput">转换结果将在这里显示...</div>
 
         <div class="standard-header-row theme-history" style="margin-top: 15px;">
-<<<<<<< HEAD
-            <h2>⏳ 历史转化记录追踪舱</h2>
-            <button class="system-action-btn btn-purple" onclick="toggleHistoryDisplay()" id="toggle-history-btn">[ 📂 折叠历史 ]</button>
-        </div>
-        <div id="history-section-wrapper">
-            <div class="history-flow-wrapper" id="history-cards-container">
-                <span style="font-size: 12px; color: #999; padding: 4px;">暂无转换历史记录记录...</span>
-            </div>
-=======
             <h2 id="ui-title-history">⏳ 历史转化记录追踪舱</h2>
             <button class="system-action-btn btn-purple" onclick="toggleHistoryDisplay()" id="toggle-history-btn">[ 📂 折叠历史 ]</button>
         </div>
         <div id="history-section-wrapper">
             <div class="history-flow-wrapper" id="history-cards-container"></div>
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
         </div>
     </div>
 
@@ -548,11 +487,7 @@
 
     <div class="side-panel">
         <div class="standard-header-row theme-dict">
-<<<<<<< HEAD
-            <h3>📊 字母热力频次图看板</h3>
-=======
             <h3 id="ui-title-dict">📊 字母热力频次图看板</h3>
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
             <div class="header-action-group">
                 <button id="cycle-display-btn" class="system-action-btn btn-blue" onclick="cycleLabelMode()">[ 👁️ 全显 ]</button>
                 <button id="toggle-alphabet-btn" class="system-action-btn btn-green" onclick="toggleAlphabetDisplay()">[ 📂 折叠字母表 ]</button>
@@ -560,23 +495,6 @@
         </div>
 
         <div class="hint-box">
-<<<<<<< HEAD
-            <div class="color-legend-bar" style="border:none; margin:0; padding:0;">
-                <span class="legend-item" style="background-color:#4CAF50;">1-2次 偶然失误</span>
-                <span class="legend-item" style="background-color:#FBC02D;">3-4次 尚未掌握</span>
-                <span class="legend-item" style="background-color:#FB8C00;">5-7次 重点关注</span>
-                <span class="legend-item" style="background-color:#E53935;">8-12次 顽固错误</span>
-                <span class="legend-item" style="background-color:#6A1B9A;">13次+ 重构方法</span>
-            </div>
-        </div>
-
-        <div id="master-alphabet-wrapper">
-            <div class="dict-section"><div class="inline-flow-tag">[元音]</div><div class="grid-container" id="grid-vowels"></div></div>
-            <div class="dict-section"><div class="inline-flow-tag">[双元]</div><div class="grid-container" id="grid-diphthongs"></div></div>
-            <div class="dict-section"><div class="inline-flow-tag">[辅音]</div><div class="grid-container" id="grid-base-consonants"></div></div>
-            <div class="dict-section"><div class="inline-flow-tag">[送气]</div><div class="grid-container" id="grid-aspirated"></div></div>
-            <div class="dict-section"><div class="inline-flow-tag">[紧音]</div><div class="grid-container" id="grid-tense"></div></div>
-=======
             <div class="color-legend-bar" id="ui-color-bar" style="border:none; margin:0; padding:0;"></div>
         </div>
 
@@ -586,17 +504,12 @@
             <div class="dict-section"><div class="inline-flow-tag" id="ui-tag-c">[辅音]</div><div class="grid-container" id="grid-base-consonants"></div></div>
             <div class="dict-section"><div class="inline-flow-tag" id="ui-tag-ac">[送气]</div><div class="grid-container" id="grid-aspirated"></div></div>
             <div class="dict-section"><div class="inline-flow-tag" id="ui-tag-tc">[紧音]</div><div class="grid-container" id="grid-tense"></div></div>
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
         </div>
 
         <div class="custom-notebook-box">
             <div class="standard-header-row theme-notebook">
                 <div style="display: flex; align-items: center;">
-<<<<<<< HEAD
-                    <h3>📝 联动错字自习本</h3>
-=======
                     <h3 id="ui-title-notebook">📝 联动错字自习本</h3>
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
                     <div class="inline-tab-group">
                         <span class="inline-tab-item active" id="st-all" onclick="setSortType('all')">全部</span>
                         <span class="inline-tab-item" id="st-vowels" onclick="setSortType('vowels')">元音</span>
@@ -606,28 +519,16 @@
                     </div>
                 </div>
                 <div class="header-action-group">
-<<<<<<< HEAD
-                    <button class="system-action-btn btn-red" onclick="clearAllCustomWords()">[ 🗑️ 清空全部错字 ]</button>
-                </div>
-            </div>
-            <div id="custom-words-container">
-                <p style="font-size:12px; color:#999;">您在左侧点击过的韩字将会收录至此...</p>
-            </div>
-=======
                     <button class="system-action-btn btn-red" id="ui-btn-clear" onclick="clearAllCustomWords()">[ 🗑️ 清空全部错字 ]</button>
                 </div>
             </div>
             <div id="custom-words-container"></div>
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
         </div>
     </div>
 
 <script>
     /* ==========================================================================
-<<<<<<< HEAD
-       【第七部分：核心算法与状态机仓库】
-=======
-           【第七部分：多国语言本地化数据库 (i18n Engine)】
+       【第七部分：多国语言本地化数据库 (i18n Engine)】
        ========================================================================== */
     let currentLang = 'zh';
     const i18n = {
@@ -658,7 +559,7 @@
             btnClear: "[ 🗑️ 清空全部错字 ]",
             emptyNotebook: "您在左侧点击过的韩字将会收录至此...",
             noWordsInTab: "该分类下无错字。",
-            confirmClear: "确定要清空错字自习本和所有历史历史吗？"
+            confirmClear: "确定要清空错字自习本和所有历史记录吗？"
         },
         en: {
             titleMain: "🎤 Korean Romanizer & Memory Notebook",
@@ -758,10 +659,10 @@
         const t = i18n[lang];
         // 更新左侧及指南文本
         document.getElementById('ui-main-title').innerHTML = t.titleMain;
-        
+
         const isGuideCollapsed = document.getElementById('system-guide-box').classList.contains('collapsed');
         document.getElementById('toggle-guide-btn').innerText = isGuideCollapsed ? t.btnUnfoldGuide : t.btnFoldGuide;
-        
+
         document.getElementById('ui-guide-content').innerHTML = t.guideContent;
         document.getElementById('ui-author-label').innerText = t.authorLabel;
         document.getElementById('ui-url-label').innerText = t.urlLabel;
@@ -770,7 +671,7 @@
         document.getElementById('userInput').placeholder = t.placeholderInput;
         document.getElementById('ui-btn-run').innerText = t.btnRun;
         document.getElementById('ui-title-output').innerText = t.titleOutput;
-        
+
         const outBox = document.getElementById('userOutput');
         if(outBox.innerText.includes("显示") || outBox.innerText.includes("appear") || outBox.innerText.includes("表示") || outBox.innerText.includes("표시")) {
             outBox.innerText = t.emptyOutput;
@@ -784,7 +685,7 @@
         document.getElementById('ui-title-dict').innerText = t.titleDict;
         const isDictCollapsed = document.getElementById('master-alphabet-wrapper').classList.contains('collapsed');
         document.getElementById('toggle-alphabet-btn').innerText = isDictCollapsed ? t.btnUnfoldDict : t.btnFoldDict;
-        
+
         const btnCycle = document.getElementById('cycle-display-btn');
         btnCycle.innerText = t.btnCycle[labelMode];
 
@@ -814,7 +715,7 @@
         renderAllGrids();
         renderCustomNotebook();
         renderHistoryPanel();
-        
+
         // 如果输入框有东西，重绘当前结果确保主看板同步刷新语言
         if(document.getElementById('userInput').value.trim()) {
             myOwnRomanize(false);
@@ -822,51 +723,38 @@
     };
 
     /* ==========================================================================
-       【第八部分：原有核心状态机仓库】
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
+       【第八部分：核心算法与状态机仓库】
        ========================================================================== */
     const INITIALS = ['g', 'kk', 'n', 'd', 'tt', 'r', 'm', 'b', 'pp', 's', 'ss', '', 'j', 'jj', 'ch', 'k', 't', 'p', 'h'];
     const MEDIALS = ['a', 'ae', 'ya', 'yae', 'eo', 'e', 'ye', 'ye', 'o', 'wa', 'wae', 'oe', 'yo', 'u', 'wo', 'we', 'wi', 'yu', 'eu', 'ui', 'i'];
     const FINALS = ['', 'k', 'kk', 'ks', 'n', 'nj', 'nh', 'd', 'l', 'lg', 'lm', 'lb', 'ls', 'lt', 'lp', 'lh', 'm', 'p', 'ps', 's', 'ss', 'ng', 'j', 'ch', 'k', 't', 'p', 'h'];
 
     const NEW_VOWELS = [{k:'ㅏ', r:'a', z:'啊'}, {k:'ㅓ', r:'eo', z:'俄'}, {k:'ㅗ', r:'o', z:'喔'}, {k:'ㅜ', r:'u', z:'乌'}, {k:'ㅡ', r:'eu', z:'呃'}, {k:'ㅣ', r:'i', z:'衣'}, {k:'ㅑ', r:'ya', z:'呀'}, {k:'ㅕ', r:'yeo', z:'哟'}, {k:'ㅛ', r:'yo', z:'哟'}, {k:'ㅠ', r:'yu', z:'优'}];
-<<<<<<< HEAD
     const NEW_DIPHTHONGS = [{k:'ㅐ', r:'ae', z:'哎'}, {k:'ㅔ', r:'e', z:'诶'}, {k:'ㅒ', r:'yae', z:'呀'}, {k:'ㅖ', r:'ye', z:'耶'}, {k:'ㅘ', r:'wa', z:'哇'}, {k:'ㅙ', r:'wae', z:'歪'}, {k:'ㅚ', r:'oe', z:'威'}, {k:'ㅝ', r:'wo', z:'沃'}, {k:'ㅞ', r:'we', z:'威'}, {k:'ㅟ', r:'wi', z:'wi'}, {k:'ㅢ', r:'ui', z:'ui'}];
-=======
-    const NEW_DIPHTHONGS = [{k:'ㅐ', r:'ae', z:'哎'}, {k:'ㅔ', r:'e', z:'诶'}, {k:'ㅒ', r:'yae', z:'呀'}, {k:'ㅖ', r:'ye', z:'耶'}, {k:'ㅘ', r:'wa', z:'歪'}, {k:'ㅙ', r:'wae', z:'歪'}, {k:'ㅚ', r:'oe', z:'威'}, {k:'ㅝ', r:'wo', z:'沃'}, {k:'ㅞ', r:'we', z:'威'}, {k:'ㅟ', r:'wi', z:'wi'}, {k:'ㅢ', r:'ui', z:'ui'}];
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
     const NEW_BASE_CONSONANTS = [{k:'ㄱ', r:'g/k', z:'哥'}, {k:'ㄴ', r:'n', z:'呢'}, {k:'ㄷ', r:'d/t', z:'德'}, {k:'ㄹ', r:'r/l', z:'勒'}, {k:'ㅁ', r:'m', z:'姆'}, {k:'ㅂ', r:'b/p', z:'波'}, {k:'ㅅ', r:'s', z:'丝'}, {k:'ㅇ', r:'ng', z:'鼻'}, {k:'ㅈ', r:'j', z:'鸡'}];
     const NEW_ASPIRATED = [{k:'ㅋ', r:'k', z:'客'}, {k:'ㅌ', r:'t', z:'特'}, {k:'ㅍ', r:'p', z:'坡'}, {k:'ㅊ', r:'ch', z:'七'}];
     const NEW_TENSE = [{k:'ㄲ', r:'kk', z:'岗'}, {k:'ㄸ', r:'tt', z:'当'}, {k:'ㅃ', r:'pp', z:'帮'}, {k:'ㅆ', r:'ss', z:'双'}, {k:'ㅉ', r:'jj', z:'酱'}];
 
     const FINAL_TO_INITIAL_MAP = { 'k':'ㄱ', 'kk':'ㄲ', 'ks':'ㄱ', 'n':'ㄴ', 'nj':'ㄴ', 'nh':'ㄴ', 'd':'ㄷ', 'l':'ㄹ', 'lg':'ㄹ', 'lm':'ㄹ', 'lb':'ㄹ', 'ls':'ㄹ', 'lt':'ㄹ', 'lp':'ㄹ', 'lh':'ㄹ', 'm':'ㅁ', 'p':'ㅂ', 'ps':'ㅂ', 's':'ㅅ', 'ss':'ㅆ', 'ng':'ㅇ', 'j':'ㅈ', 'ch':'ㅊ', 't':'ㄷ', 'h':'ㅎ' };
 
-    let letterCounts = JSON.parse(localStorage.getItem('L_COUNTS')) || {}; 
-    let letterLocks = JSON.parse(localStorage.getItem('L_LOCKS')) || {};   
-    let customWords = JSON.parse(localStorage.getItem('C_WORDS')) || {};   
-<<<<<<< HEAD
-    let conversionHistory = JSON.parse(localStorage.getItem('C_HISTORY')) || []; // 转化历史数组
-=======
-    let conversionHistory = JSON.parse(localStorage.getItem('C_HISTORY')) || []; 
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
-    
-    let labelMode = 0; 
+    let letterCounts = JSON.parse(localStorage.getItem('L_COUNTS')) || {};
+    let letterLocks = JSON.parse(localStorage.getItem('L_LOCKS')) || {};
+    let customWords = JSON.parse(localStorage.getItem('C_WORDS')) || {};
+    let conversionHistory = JSON.parse(localStorage.getItem('C_HISTORY')) || [];
+
+    let labelMode = 0;
 
     function getColorClassByCount(count) {
         if (count <= 0) return "";
-        if (count >= 1 && count <= 2) return "color-l1";   
-        if (count >= 3 && count <= 4) return "color-l2";   
-        if (count >= 5 && count <= 7) return "color-l3";   
-        if (count >= 8 && count <= 12) return "color-l4";  
-        return "color-l5";                                 
+        if (count >= 1 && count <= 2) return "color-l1";
+        if (count >= 3 && count <= 4) return "color-l2";
+        if (count >= 5 && count <= 7) return "color-l3";
+        if (count >= 8 && count <= 12) return "color-l4";
+        return "color-l5";
     }
 
     /* ==========================================================================
-<<<<<<< HEAD
-       【第八部分：整体界面拉伸与折叠交互逻辑】
-=======
        【第九部分：拖拽与折叠面板交互】
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
        ========================================================================== */
     const resizer = document.getElementById('dragResizer');
     const mainZone = document.getElementById('mainZone');
@@ -884,61 +772,40 @@
         const box = document.getElementById('system-guide-box');
         const btn = document.getElementById('toggle-guide-btn');
         box.classList.toggle('collapsed');
-<<<<<<< HEAD
-        btn.innerText = box.classList.contains('collapsed') ? "[ 📂 展开指南 ]" : "[ 📂 折叠指南 ]";
-=======
         btn.innerText = box.classList.contains('collapsed') ? i18n[currentLang].btnUnfoldGuide : i18n[currentLang].btnFoldGuide;
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
     };
 
     window.toggleHistoryDisplay = function() {
         const wrapper = document.getElementById('history-section-wrapper');
         const btn = document.getElementById('toggle-history-btn');
         wrapper.classList.toggle('collapsed');
-<<<<<<< HEAD
-        btn.innerText = wrapper.classList.contains('collapsed') ? "[ 📂 展开历史 ]" : "[ 📂 折叠历史 ]";
-=======
         btn.innerText = wrapper.classList.contains('collapsed') ? i18n[currentLang].btnUnfoldHist : i18n[currentLang].btnFoldHist;
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
     };
 
     window.toggleAlphabetDisplay = function() {
         const wrapper = document.getElementById('master-alphabet-wrapper');
         const btn = document.getElementById('toggle-alphabet-btn');
         wrapper.classList.toggle('collapsed');
-<<<<<<< HEAD
-        btn.innerText = wrapper.classList.contains('collapsed') ? "[ 📂 展开字母表 ]" : "[ 📂 折叠字母表 ]";
-=======
         btn.innerText = wrapper.classList.contains('collapsed') ? i18n[currentLang].btnUnfoldDict : i18n[currentLang].btnFoldDict;
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
     };
 
     window.cycleLabelMode = function() {
         labelMode = (labelMode + 1) % 4;
         const btn = document.getElementById('cycle-display-btn');
-<<<<<<< HEAD
-        const modesHint = ["[ 👁️ 全显 ]", "[ 👁️ 仅发音 ]", "[ 👁️ 仅罗马 ]", "[ 👁️ 纯字母 ]"];
-        btn.innerText = modesHint[labelMode];
-=======
         btn.innerText = i18n[currentLang].btnCycle[labelMode];
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
         renderAllGrids();
     };
 
     /* ==========================================================================
-<<<<<<< HEAD
-       【第九部分：全自动字形拆分核心联动算法】
-=======
        【第十部分：全自动收录与联动拆解】
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
        ========================================================================== */
     window.linkKoreanCharClick = function(char) {
         let code = char.charCodeAt(0);
         if (code >= 44032 && code <= 55203) {
             let idx = code - 44032;
-            let fIdx = idx % 28;                                 
-            let mIdx = Math.floor((idx / 28)) % 21;       
-            let iIdx = Math.floor(Math.floor((idx / 28)) / 21); 
+            let fIdx = idx % 28;
+            let mIdx = Math.floor((idx / 28)) % 21;
+            let iIdx = Math.floor(Math.floor((idx / 28)) / 21);
 
             let partInit = INITIALS[iIdx];
             let partMed = MEDIALS[mIdx];
@@ -949,7 +816,7 @@
             let krMed = NEW_VOWELS.concat(NEW_DIPHTHONGS).find(o => o.r === partMed || (partMed==='yeo' && o.r==='yeo'))?.k || '';
             let krFin = FINAL_TO_INITIAL_MAP[partFin] || '';
 
-            if (!krMed) krMed = 'ㅏ'; 
+            if (!krMed) krMed = 'ㅏ';
 
             if (!customWords[char]) {
                 customWords[char] = { count: 0, init: krInit, med: krMed, fin: krFin };
@@ -961,37 +828,21 @@
             if (krFin && !letterLocks[krFin]) letterCounts[krFin] = (letterCounts[krFin] || 0) + 1;
 
             saveAndRefresh();
-<<<<<<< HEAD
-            myOwnRomanize(false); // 重绘面板，不追加重复的历史卡片
-=======
-            myOwnRomanize(false); 
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
+            myOwnRomanize(false);
         }
     };
 
     /* ==========================================================================
-<<<<<<< HEAD
-       【第十部分：历史转化记录渲染与回溯引擎】
-=======
        【第十一部分：历史回溯舱渲染】
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
        ========================================================================== */
     function renderHistoryPanel() {
         const container = document.getElementById('history-cards-container');
         if (conversionHistory.length === 0) {
-<<<<<<< HEAD
-            container.innerHTML = `<span style="font-size: 12px; color: #999; padding: 4px;">暂无转换历史记录...</span>`;
-=======
             container.innerHTML = `<span style="font-size: 12px; color: #999; padding: 4px;">${i18n[currentLang].emptyHist}</span>`;
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
             return;
         }
 
         container.innerHTML = conversionHistory.map((item, index) => {
-<<<<<<< HEAD
-            // 截取前 12 个字符作为缩略文本
-=======
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
             let previewText = item.text.length > 12 ? item.text.substring(0, 12) + "..." : item.text;
             return `
                 <div class="history-card" onclick="recallHistoryItem(${index})">
@@ -1006,11 +857,7 @@
         let item = conversionHistory[index];
         if (item) {
             document.getElementById('userInput').value = item.text;
-<<<<<<< HEAD
-            myOwnRomanize(false); // 回溯加载不产生新的重复历史词条
-=======
-            myOwnRomanize(false); 
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
+            myOwnRomanize(false);
         }
     };
 
@@ -1019,40 +866,23 @@
     }
 
     /* ==========================================================================
-<<<<<<< HEAD
-       【第十一部分：主转换引擎与数据持久化】
-=======
        【第十二部分：主转换引擎】
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
        ========================================================================== */
     window.myOwnRomanize = function(isNewTrigger = true) {
         const input = document.getElementById('userInput').value;
         const output = document.getElementById('userOutput');
         if (!output) return;
-<<<<<<< HEAD
-        if (!input.trim()) { output.innerText = '转换结果将在这里显示...'; return; }
-
-        // 如果是手动点大按钮触发的新转换，追加到历史堆栈（防重过滤）
-=======
         if (!input.trim()) { output.innerText = i18n[currentLang].emptyOutput; return; }
 
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
         if (isNewTrigger) {
             let now = new Date();
-            let timeStr = String(now.getHours()).padStart(2, '0') + ":" + 
-                          String(now.getMinutes()).padStart(2, '0') + ":" + 
+            let timeStr = String(now.getHours()).padStart(2, '0') + ":" +
+                          String(now.getMinutes()).padStart(2, '0') + ":" +
                           String(now.getSeconds()).padStart(2, '0');
-            
-<<<<<<< HEAD
-            // 过滤连续重复的内容
+
             if (conversionHistory.length === 0 || conversionHistory[0].text !== input.trim()) {
                 conversionHistory.unshift({ text: input.trim(), time: timeStr });
-                if (conversionHistory.length > 30) conversionHistory.pop(); // 上限30条
-=======
-            if (conversionHistory.length === 0 || conversionHistory[0].text !== input.trim()) {
-                conversionHistory.unshift({ text: input.trim(), time: timeStr });
-                if (conversionHistory.length > 30) conversionHistory.pop(); 
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
+                if (conversionHistory.length > 30) conversionHistory.pop();
                 localStorage.setItem('C_HISTORY', JSON.stringify(conversionHistory));
                 renderHistoryPanel();
             }
@@ -1093,18 +923,14 @@
 
                     if (FINALS[curr.fIdx] === 'p' && next && next.type === 'kr' && (INITIALS[next.iIdx] === 'n' || INITIALS[next.iIdx] === 'm')) prFin = 'm';
                     if (FINALS[curr.fIdx] === 'k' && next && next.type === 'kr' && (INITIALS[next.iIdx] === 'n' || INITIALS[next.iIdx] === 'm')) prFin = 'ng';
-                    if (curr.char === '끊') { prFin = ''; } 
-                    if (curr.char === '임') { prInit = 'n'; prFin = ''; } 
+                    if (curr.char === '끊') { prFin = ''; }
+                    if (curr.char === '임') { prInit = 'n'; prFin = ''; }
                     if (curr.char === '없') { prInit = 'n'; prFin = 'p'; }
                     if (curr.char === '이') { prInit = 's'; }
 
                     let pronounceRomaji = prInit + prMed + prFin;
                     let topHTML = (literalRomaji !== pronounceRomaji) ? `<span class="literal-romaji">${literalRomaji}</span>` : "";
 
-<<<<<<< HEAD
-                    // 原文汉字动态打通五级热力颜色阶梯
-=======
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
                     let errorColorClass = "";
                     if (customWords[curr.char]) {
                         errorColorClass = getColorClassByCount(customWords[curr.char].count);
@@ -1123,11 +949,7 @@
     };
 
     /* ==========================================================================
-<<<<<<< HEAD
-       【第十二部分：面板UI同步渲染引擎】
-=======
        【第十三部分：界面渲染刷构】
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
        ========================================================================== */
     function renderAllGrids() {
         renderSingleGrid('grid-vowels', NEW_VOWELS);
@@ -1148,8 +970,8 @@
             let activeLockClass = isLocked ? "locked" : "";
 
             let infoLineHTML = "";
-            if (labelMode === 0) { infoLineHTML = `<span>${item.r}</span><span>${item.z}</span>`; } 
-            else if (labelMode === 1) { infoLineHTML = `<span>${item.z}</span>`; } 
+            if (labelMode === 0) { infoLineHTML = `<span>${item.r}</span><span>${item.z}</span>`; }
+            else if (labelMode === 1) { infoLineHTML = `<span>${item.z}</span>`; }
             else if (labelMode === 2) { infoLineHTML = `<span>${item.r}</span>`; }
 
             return `
@@ -1165,11 +987,11 @@
 
     window.toggleLockLetter = function(letter) {
         letterLocks[letter] = !letterLocks[letter];
-        if (letterLocks[letter]) letterCounts[letter] = 0; 
+        if (letterLocks[letter]) letterCounts[letter] = 0;
         saveAndRefresh();
     };
 
-    let currentSortType = 'all'; 
+    let currentSortType = 'all';
     window.setSortType = function(type) {
         currentSortType = type;
         document.querySelectorAll('.inline-tab-item').forEach(el => el.classList.remove('active'));
@@ -1178,20 +1000,12 @@
     };
 
     window.clearAllCustomWords = function() {
-<<<<<<< HEAD
-        if(confirm("确定要清空错字自习本和所有历史历史吗？")) {
-=======
         if(confirm(i18n[currentLang].confirmClear)) {
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
             customWords = {}; letterCounts = {}; conversionHistory = [];
             localStorage.removeItem('C_HISTORY');
             saveAndRefresh();
             document.getElementById('userInput').value = "";
-<<<<<<< HEAD
-            document.getElementById('userOutput').innerText = '转换结果将在这里显示...';
-=======
             document.getElementById('userOutput').innerText = i18n[currentLang].emptyOutput;
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
         }
     };
 
@@ -1199,32 +1013,21 @@
         const container = document.getElementById('custom-words-container');
         let keys = Object.keys(customWords);
         if (keys.length === 0) {
-<<<<<<< HEAD
-            container.innerHTML = `<p style="font-size:12px; color:#999; padding: 5px;">您在左侧点击过的韩字将会收录至此...</p>`;
-=======
             container.innerHTML = `<p style="font-size:12px; color:#999; padding: 5px;">${i18n[currentLang].emptyNotebook}</p>`;
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
             return;
         }
 
         let wordList = keys.map(k => ({ char: k, ...customWords[k] }));
         let finalHTML = `<div class="flow-mixed-wrapper">`;
-        let categorySource = []; let typeShortLabel = ""; let checkIsConsonant = false; 
+        let categorySource = []; let typeShortLabel = ""; let checkIsConsonant = false;
 
-        if (currentSortType === 'all') { categorySource = NEW_BASE_CONSONANTS; checkIsConsonant = true; } 
+        if (currentSortType === 'all') { categorySource = NEW_BASE_CONSONANTS; checkIsConsonant = true; }
         else {
             switch(currentSortType) {
-<<<<<<< HEAD
-                case 'vowels': categorySource = NEW_VOWELS; typeShortLabel = "元"; break;
-                case 'diphthongs': categorySource = NEW_DIPHTHONGS; typeShortLabel = "双"; break;
-                case 'aspirated': categorySource = NEW_ASPIRATED; typeShortLabel = "气"; checkIsConsonant = true; break;
-                case 'tense': categorySource = NEW_TENSE; typeShortLabel = "紧"; checkIsConsonant = true; break;
-=======
                 case 'vowels': categorySource = NEW_VOWELS; typeShortLabel = currentLang==='zh'?"元":"V"; break;
                 case 'diphthongs': categorySource = NEW_DIPHTHONGS; typeShortLabel = currentLang==='zh'?"双":"Dv"; break;
                 case 'aspirated': categorySource = NEW_ASPIRATED; typeShortLabel = currentLang==='zh'?"气":"Ac"; checkIsConsonant = true; break;
                 case 'tense': categorySource = NEW_TENSE; typeShortLabel = currentLang==='zh'?"紧":"Tc"; checkIsConsonant = true; break;
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
             }
         }
 
@@ -1253,11 +1056,7 @@
             let leftoverWords = wordList.filter(w => !baseConsonantsKeys.includes(w.init) && !baseConsonantsKeys.includes(w.fin));
             if (leftoverWords.length > 0) {
                 leftoverWords.sort((a, b) => b.count - a.count);
-<<<<<<< HEAD
-                finalHTML += `<div class="inline-flow-tag">其他</div>`;
-=======
                 finalHTML += `<div class="inline-flow-tag">${currentLang==='zh'?'其他':'Etc'}</div>`;
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
                 leftoverWords.forEach(item => {
                     let textColorClass = getColorClassByCount(item.count);
                     finalHTML += `
@@ -1272,21 +1071,17 @@
             }
         }
         finalHTML += `</div>`;
-<<<<<<< HEAD
-        container.innerHTML = finalHTML === `<div class="flow-mixed-wrapper"></div>` ? `<p style="font-size:12px; color:#bbb; padding: 5px;">该分类下无错字。</p>` : finalHTML;
-=======
         container.innerHTML = finalHTML === `<div class="flow-mixed-wrapper"></div>` ? `<p style="font-size:12px; color:#bbb; padding: 5px;">${i18n[currentLang].noWordsInTab}</p>` : finalHTML;
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
     }
 
     window.resetSingleWord = function(char) {
         let item = customWords[char];
         if (item && item.count > 1) {
-            let diff = item.count - 1; 
+            let diff = item.count - 1;
             if (item.init && letterCounts[item.init]) letterCounts[item.init] = Math.max(0, letterCounts[item.init] - diff);
             if (item.med && letterCounts[item.med]) letterCounts[item.med] = Math.max(0, letterCounts[item.med] - diff);
             if (item.fin && letterCounts[item.fin]) letterCounts[item.fin] = Math.max(0, letterCounts[item.fin] - diff);
-            item.count = 1; 
+            item.count = 1;
         }
         saveAndRefresh();
         myOwnRomanize(false);
@@ -1312,15 +1107,8 @@
         renderCustomNotebook();
     }
 
-<<<<<<< HEAD
-    // 初始化加载
-    renderAllGrids();
-    renderCustomNotebook();
-    renderHistoryPanel();
-=======
     // 默认初始化中文界面
     switchLanguage('zh');
->>>>>>> e5ec69f2acbc599914f73cd11b7a444e712550c5
 </script>
 </body>
 </html>
